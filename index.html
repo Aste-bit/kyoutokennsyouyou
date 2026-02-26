@@ -395,10 +395,111 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 .story-paused-indicator{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:15;font-size:2.5rem;color:rgba(255,255,255,.6);opacity:0;transition:opacity .2s;pointer-events:none}
 .story-overlay.paused .story-paused-indicator{opacity:1}
 .story-overlay.paused .story-progress-fill.active{animation-play-state:paused!important}
+/* Story landscape mode */
+@media (orientation:landscape) and (max-height:500px){
+.story-progress-bar{padding:6px 10px 0}
+.story-close{top:8px;right:10px;width:30px;height:30px;font-size:1.2rem}
+/* Opening */
+.story-opening-title{font-size:2.5rem}
+.story-opening-label{font-size:.9rem}
+.story-opening-dates{font-size:.8rem}
+.story-opening-meta{margin-top:.6rem}
+.story-opening-line{margin:.4rem auto}
+/* Route */
+.story-route svg{max-width:250px;width:60%}
+.story-route-title{margin-bottom:.6rem;font-size:.85rem}
+.story-route-stats{margin-top:.8rem;gap:1.5rem}
+.story-route-stat-num{font-size:1.2rem}
+/* Daybreak */
+.story-daybreak-date{font-size:2rem}
+.story-daybreak-num{font-size:.85rem}
+/* Spot — side-by-side layout */
+.story-spot-gradient{background:linear-gradient(to right,rgba(10,9,8,.95) 0%,rgba(10,9,8,.7) 35%,rgba(10,9,8,.1) 60%,rgba(10,9,8,.25) 100%)}
+.story-spot-content{inset:0;padding:2.5rem 1.2rem 1.2rem;display:flex;flex-direction:column;justify-content:flex-end;max-width:55%}
+.story-spot-name{font-size:1.3rem;margin-bottom:.3rem}
+.story-spot-time{font-size:.65rem;margin-bottom:.3rem}
+.story-spot-stars .story-spot-star{font-size:.85rem}
+.story-spot-comment{font-size:.75rem;line-height:1.5;max-width:100%}
+.story-spot-category{font-size:.55rem;margin-bottom:.3rem}
+/* Ending */
+.story-ending-stats{gap:.8rem 2rem}
+.story-ending-stat-num{font-size:1.6rem}
+.story-ending-stat-label{font-size:.6rem}
+.story-ending-best{margin:.6rem 0;padding:.6rem 1.2rem}
+.story-ending-best-name{font-size:1rem}
+.story-ending-title{font-size:1.5rem;margin-top:.6rem}
+.story-ending-sub{font-size:.7rem}
+.story-ending-petal{margin-top:.5rem;font-size:1.2rem}
+}
+/* Wider landscape (tablets, desktop) */
+@media (orientation:landscape) and (min-height:501px){
+.story-spot-content{max-width:50%;padding:2rem 2rem 3rem}
+.story-spot-gradient{background:linear-gradient(to right,rgba(10,9,8,.9) 0%,rgba(10,9,8,.55) 40%,rgba(10,9,8,.1) 65%,rgba(10,9,8,.2) 100%)}
+}
 </style>
 </head>
 <body>
+<script>
+// Service Worker registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js').then(function(reg) {
+      // Check for updates every 30 minutes
+      setInterval(function() { reg.update(); }, 1800000);
+      // When a new SW is waiting, activate it immediately
+      reg.addEventListener('updatefound', function() {
+        var newWorker = reg.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', function() {
+            if (newWorker.state === 'activated') {
+              console.log('Service Worker updated');
+            }
+          });
+        }
+      });
+    }).catch(function(err) { console.warn('SW registration failed:', err); });
+  });
+}
+</script>
 <div class="sakura-container" id="sakuraContainer"></div>
+
+<script>
+// === Demo Data for Preview ===
+(function() {
+  var demoReviews = {
+    '東福寺': { stars: 4, comment: '紅葉の時期じゃなくても庭園が見事だった' },
+    '蓮華茶屋（ランチ）': { stars: 4, comment: '宇治の雰囲気の中でゆったりランチ' },
+    '平等院鳳凰堂': { stars: 5, comment: '10円玉の世界が目の前に。水面の反射が最高' },
+    '伏見稲荷大社': { stars: 5, comment: '千本鳥居が圧巻。奥社まで行く体力は残しておくべし' },
+    '祇園きよみず祇をん新橋（夕飯）': { stars: 4, comment: 'コースの鯛めしが絶品だった' },
+    '東寺（夜桜ライトアップ）': { stars: 5, comment: '五重塔と夜桜の組み合わせは言葉を失う美しさ' },
+    '龍安寺': { stars: 4, comment: '石庭の前でぼーっとする時間が贅沢' },
+    '金閣寺': { stars: 5, comment: '思ったより金ピカ。晴れの日に来て正解' },
+    '銀閣寺': { stars: 4, comment: '銀コロッケ食べ歩きが楽しかった' },
+    '八坂庚申堂・清水寺（食べ歩き）': { stars: 5, comment: '清水の舞台からの眺望は何度来ても感動する' },
+    '京都炭火串焼つじや（夕飯）': { stars: 4, comment: '飲み放題付きでこの値段はコスパ最強' },
+    '天龍寺・渡月橋': { stars: 5, comment: '嵐山の朝は空気が違う。天龍寺の庭園は京都一' },
+    '京都駅着（ランチ・お土産）': { stars: 4, comment: '第一旭のラーメン、最後の京都飯にふさわしい' }
+  };
+  var demoPhotos = {
+    '東京駅出発': 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&h=600&fit=crop&q=80',
+    '京都駅着': 'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=800&h=600&fit=crop&q=80',
+    '京都駅出発': 'https://images.unsplash.com/photo-1624601573012-efb68f3f150d?w=800&h=600&fit=crop&q=80'
+  };
+  try {
+    Object.keys(demoReviews).forEach(function(k) {
+      if (!localStorage.getItem('kyoto-review-' + k)) {
+        localStorage.setItem('kyoto-review-' + k, JSON.stringify(demoReviews[k]));
+      }
+    });
+    Object.keys(demoPhotos).forEach(function(k) {
+      if (!localStorage.getItem('kyoto-photo-' + k)) {
+        localStorage.setItem('kyoto-photo-' + k, demoPhotos[k]);
+      }
+    });
+  } catch(e) {}
+})();
+</script>
 
 <section class="hero">
   <div class="hero-pattern"></div>
