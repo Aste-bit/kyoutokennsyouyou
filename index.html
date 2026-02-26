@@ -342,8 +342,8 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 /* Slide types */
 .story-opening{align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#1a1614,#2C2420 40%,#3D2E28)}
 .story-opening::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(242,167,179,.1),transparent 60%),radial-gradient(ellipse at 70% 60%,rgba(196,162,101,.08),transparent 50%)}
-.story-opening-label{font-family:'Caveat',cursive;color:var(--sakura);font-size:1.1rem;letter-spacing:.2em;opacity:0;animation:storyFadeUp .8s .3s forwards;text-shadow:0 1px 8px rgba(0,0,0,.6)}
-.story-opening-title{font-family:'Zen Old Mincho',serif;font-size:4rem;color:#FBF8F5;letter-spacing:.25em;margin:.3rem 0;opacity:0;animation:storyFadeUp .8s .5s forwards;position:relative;z-index:1;text-shadow:0 2px 15px rgba(0,0,0,.8),0 0 40px rgba(0,0,0,.5)}
+.story-opening-label{font-family:'Caveat',cursive;color:var(--sakura);font-size:1.1rem;letter-spacing:.2em;opacity:0;animation:storyFadeUp .8s .3s forwards}
+.story-opening-title{font-family:'Zen Old Mincho',serif;font-size:4rem;color:#FBF8F5;letter-spacing:.25em;margin:.3rem 0;opacity:0;animation:storyFadeUp .8s .5s forwards;position:relative;z-index:1}
 .story-opening-line{width:50px;height:1px;background:var(--sakura);margin:.8rem auto;opacity:0;animation:storyFadeUp .6s .7s forwards}
 .story-opening-dates{font-family:'Zen Kaku Gothic New',sans-serif;font-size:.9rem;color:var(--gold-light);letter-spacing:.25em;opacity:0;animation:storyFadeUp .8s .9s forwards;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .story-opening-meta{font-size:.78rem;color:rgba(251,248,245,.6);margin-top:1.5rem;letter-spacing:.1em;opacity:0;animation:storyFadeUp .8s 1.1s forwards;text-shadow:0 1px 6px rgba(0,0,0,.5)}
@@ -352,17 +352,24 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 @keyframes storyPetalFall{0%{opacity:0;transform:translateY(-20px) rotate(0)}10%{opacity:.5}80%{opacity:.4}100%{opacity:0;transform:translateY(100vh) rotate(360deg)}}
 @keyframes storyFadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
 /* Route slide */
-.story-route{align-items:center;justify-content:center;background:linear-gradient(160deg,#1a1614,#252220)}
-.story-route-title{font-family:'Caveat',cursive;color:var(--sakura);font-size:1rem;letter-spacing:.15em;margin-bottom:1.5rem;opacity:0;animation:storyFadeUp .6s .2s forwards;text-shadow:0 1px 8px rgba(0,0,0,.6)}
-.story-route svg{max-width:320px;width:85%}
-.story-route-stats{display:flex;gap:2rem;margin-top:2rem;opacity:0;animation:storyFadeUp .6s 1.5s forwards}
-.story-route-stat{text-align:center}
-.story-route-stat-num{font-family:'Zen Old Mincho',serif;font-size:1.6rem;color:#FBF8F5;font-weight:700;text-shadow:0 1px 8px rgba(0,0,0,.7)}
-.story-route-stat-label{font-size:.65rem;color:rgba(251,248,245,.6);letter-spacing:.1em;margin-top:.15rem;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+/* Transit slide — full-screen photo like spots */
+.story-transit{background:#1a1614}
+/* Single photo: same as spot */
+.story-transit-single .story-spot-img-wrap{position:absolute;inset:0}
+.story-transit-single .story-spot-content{position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem 3rem;z-index:3;text-shadow:0 1px 8px rgba(0,0,0,.8),0 0 25px rgba(0,0,0,.5)}
+/* Dual photo: split screen */
+.story-transit-dual{position:absolute;inset:0;display:flex;flex-direction:column}
+.story-transit-half{position:relative;flex:1;overflow:hidden}
+.story-transit-half-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.story-transit-half-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;z-index:1}
+.story-transit-half-label{position:absolute;bottom:.6rem;left:.8rem;font-size:.7rem;color:#FBF8F5;letter-spacing:.08em;z-index:3;opacity:0;animation:storyFadeUp .5s .8s forwards;text-shadow:0 1px 6px rgba(0,0,0,.8)}
+.story-transit-half-gradient{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(0,0,0,.5) 0%,rgba(0,0,0,.15) 20%,transparent 40%)}
+.story-transit-center{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);z-index:10;text-align:center;padding:.6rem 1rem;background:rgba(26,22,20,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.story-transit-center-label{font-family:'Zen Old Mincho',serif;font-size:1.1rem;color:#FBF8F5;letter-spacing:.15em;opacity:0;animation:storyFadeUp .5s .3s forwards}
+.story-transit-center-sub{font-size:.65rem;color:rgba(251,248,245,.5);letter-spacing:.08em;margin-top:.2rem;opacity:0;animation:storyFadeUp .5s .5s forwards}
 /* Day break slide */
 .story-daybreak{align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#1a1614,#1e1c1a)}
 .story-daybreak::before{content:none}
-.story-route::before{content:none}
 .story-daybreak-num{font-family:'Caveat',cursive;color:var(--sakura);font-size:1rem;letter-spacing:.2em;opacity:0;animation:storyFadeUp .6s .2s forwards;text-shadow:0 1px 8px rgba(0,0,0,.7)}
 .story-daybreak-date{font-family:'Zen Old Mincho',serif;font-size:2.8rem;color:#FBF8F5;letter-spacing:.15em;margin:.3rem 0;opacity:0;animation:storyFadeUp .7s .4s forwards;text-shadow:0 2px 12px rgba(0,0,0,.8),0 0 30px rgba(0,0,0,.5)}
 .story-daybreak-weekday{font-size:.85rem;color:rgba(251,248,245,.7);letter-spacing:.15em;opacity:0;animation:storyFadeUp .6s .6s forwards;text-shadow:0 1px 8px rgba(0,0,0,.7)}
@@ -412,10 +419,11 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 .story-opening-meta{margin-top:.6rem}
 .story-opening-line{margin:.4rem auto}
 /* Route */
-.story-route svg{max-width:250px;width:60%}
-.story-route-title{margin-bottom:.6rem;font-size:.85rem}
-.story-route-stats{margin-top:.8rem;gap:1.5rem}
-.story-route-stat-num{font-size:1.2rem}
+/* Transit — landscape: side by side */
+.story-transit-dual{flex-direction:row}
+.story-transit-center{left:50%;right:auto;top:0;bottom:0;transform:translateX(-50%);width:auto;padding:.8rem .8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;writing-mode:vertical-rl}
+.story-transit-center-label{font-size:.95rem;writing-mode:vertical-rl}
+.story-transit-center-sub{writing-mode:vertical-rl;margin-top:0;margin-right:.3rem}
 /* Daybreak */
 .story-daybreak-date{font-size:2rem}
 .story-daybreak-num{font-size:.85rem}
@@ -1511,7 +1519,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
   var timer = null;
   var isPaused = false;
   var DURATION_OPENING = 5000;
-  var DURATION_ROUTE = 5500;
+  var DURATION_TRANSPORT = 5000;
   var DURATION_DAYBREAK = 3000;
   var DURATION_SPOT = 4500;
   var DURATION_ENDING = 7000;
@@ -1602,25 +1610,23 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     });
     if (!overallBest && allSpotPhotos.length) overallBest = allSpotPhotos[0].img;
 
-    // Try to find a transport/travel photo for route slide
-    var routePhoto = getUserPhoto('__travel_route__') || '';
-    // Also check transport cards for any user photo
-    if (!routePhoto) {
-      var transportNames = [];
-      document.querySelectorAll('.timeline-card.transport .card-title').forEach(function(t) { transportNames.push(t.textContent.trim()); });
-      for (var tn = 0; tn < transportNames.length; tn++) {
-        var tp = getUserPhoto(transportNames[tn]);
-        if (tp) { routePhoto = tp; break; }
-      }
-    }
-
     // Build final slide array
     allSlides.push({ type: 'opening', duration: DURATION_OPENING, bgImg: overallBest });
-    allSlides.push({ type: 'route', duration: DURATION_ROUTE, bgImg: routePhoto });
 
     days.forEach(function(day, idx) {
       allSlides.push({ type: 'daybreak', num: day.num, date: day.date, weekday: day.weekday, duration: DURATION_DAYBREAK, bgImg: dayData[idx].bestImg });
+      // After Day 1 daybreak, insert 東京駅→京都駅 transit
+      if (idx === 0) {
+        var depImg = getUserPhoto('東京駅出発') || '';
+        var arrImg = getUserPhoto('京都駅着') || '';
+        allSlides.push({ type: 'transit', label: '東京駅 → 京都駅', sub: 'のぞみ61号 · 2h12min', emoji: '🚅', img1: depImg, img1label: '東京駅出発', img2: arrImg, img2label: '京都駅着', duration: DURATION_TRANSPORT });
+      }
       dayData[idx].spots.forEach(function(s) { allSlides.push(s); });
+      // After Day 3 spots, insert 京都駅→東京駅 transit
+      if (idx === days.length - 1) {
+        var depImg3 = getUserPhoto('京都駅出発') || '';
+        allSlides.push({ type: 'transit', label: '京都駅 → 東京駅', sub: 'ひかり654号 · 2h28min', emoji: '🚅', img1: depImg3, img1label: '京都駅出発', img2: '', img2label: '', duration: DURATION_TRANSPORT });
+      }
     });
 
     allSlides.push({ type: 'ending', duration: DURATION_ENDING, bgImg: overallBest });
@@ -1643,11 +1649,6 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     if (data.type === 'opening') {
       div.classList.add('story-opening');
       var bgHTML = '';
-      if (data.bgImg) {
-        bgHTML = '<div class="story-spot-img-wrap" style="background-image:url(\'' + data.bgImg + '\')">' +
-          '<img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="object-position:center center">' +
-          '<div class="story-slide-overlay"></div></div>';
-      }
       var petals = '<div class="story-opening-petals">';
       for (var i = 0; i < 8; i++) {
         var left = Math.random() * 100;
@@ -1660,45 +1661,56 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
         '<div style="position:relative;z-index:5">' +
         '<div class="story-opening-label">My Travel Journal</div>' +
         '<div class="story-opening-title">京都</div>' +
-        '<div class="story-opening-line"></div>' +
         '<div class="story-opening-dates">2026.3.14 — 3.16</div>' +
         '<div class="story-opening-meta">2泊3日の旅</div>' +
         '</div>';
     }
-    else if (data.type === 'route') {
-      div.classList.add('story-route');
-      var routeBg = '';
-      if (data.bgImg) {
-        routeBg = '<div class="story-spot-img-wrap" style="background-image:url(\'' + data.bgImg + '\')">' +
-          '<img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="object-position:center center">' +
-          '<div class="story-slide-overlay"></div></div>';
+    else if (data.type === 'transit') {
+      div.classList.add('story-transit');
+      if (data.img1 && data.img2) {
+        // Two photos: split screen like spot×2
+        div.innerHTML =
+          '<div class="story-transit-dual">' +
+            '<div class="story-transit-half">' +
+              '<div class="story-transit-half-bg" style="background-image:url(\'' + data.img1 + '\')"></div>' +
+              '<img class="story-transit-half-img" src="' + data.img1 + '" alt="">' +
+              '<div class="story-transit-half-gradient"></div>' +
+              '<div class="story-transit-half-label">' + data.img1label + '</div>' +
+            '</div>' +
+            '<div class="story-transit-half">' +
+              '<div class="story-transit-half-bg" style="background-image:url(\'' + data.img2 + '\')"></div>' +
+              '<img class="story-transit-half-img" src="' + data.img2 + '" alt="">' +
+              '<div class="story-transit-half-gradient"></div>' +
+              '<div class="story-transit-half-label">' + data.img2label + '</div>' +
+            '</div>' +
+            '<div class="story-transit-center">' +
+              '<div class="story-transit-center-label">' + data.label + '</div>' +
+              '<div class="story-transit-center-sub">' + data.sub + '</div>' +
+            '</div>' +
+          '</div>';
+      } else if (data.img1) {
+        // Single photo: same layout as spot
+        div.classList.add('story-transit-single');
+        div.innerHTML =
+          '<div class="story-spot-img-wrap" style="background-image:url(\'' + data.img1 + '\')">' +
+            '<img class="story-spot-img" src="' + data.img1 + '" alt="" onload="this.classList.add(\'loaded\')">' +
+            '<div class="story-spot-gradient"></div>' +
+          '</div>' +
+          '<div class="story-spot-content">' +
+            '<div class="story-spot-category" style="color:var(--transport)">移動</div>' +
+            '<div class="story-spot-name">' + data.label + '</div>' +
+            '<div class="story-spot-time">' + data.sub + '</div>' +
+          '</div>';
+      } else {
+        // No photo: dark bg with emoji
+        div.innerHTML =
+          '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="font-size:5rem;opacity:.15">' + (data.emoji || '🚅') + '</span></div>' +
+          '<div class="story-spot-content">' +
+            '<div class="story-spot-category" style="color:var(--transport)">移動</div>' +
+            '<div class="story-spot-name">' + data.label + '</div>' +
+            '<div class="story-spot-time">' + data.sub + '</div>' +
+          '</div>';
       }
-      div.innerHTML = routeBg +
-        '<div style="position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1">' +
-        '<div class="story-route-title">travel route</div>' +
-        '<svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-        '<defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#F2A7B3"/><stop offset="100%" stop-color="#C4A265"/></linearGradient></defs>' +
-        '<!-- Japan outline hint -->' +
-        '<ellipse cx="150" cy="100" rx="130" ry="75" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>' +
-        '<!-- Route -->' +
-        '<path id="routePath" d="M 195 72 Q 190 78 178 82 Q 150 95 110 108 Q 85 118 68 128" stroke="url(#rg)" stroke-width="2.5" stroke-linecap="round" fill="none" stroke-dasharray="300" stroke-dashoffset="300"><animate attributeName="stroke-dashoffset" from="300" to="0" dur="2s" begin="0.5s" fill="freeze"/></path>' +
-        '<!-- Dots -->' +
-        '<g opacity="0"><circle cx="195" cy="72" r="4" fill="#F2A7B3"/><animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.3s" fill="freeze"/></g>' +
-        '<g opacity="0"><circle cx="178" cy="82" r="3.5" fill="#D4748A"/><animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="1.2s" fill="freeze"/></g>' +
-        '<g opacity="0"><circle cx="68" cy="128" r="5" fill="#C4A265"/><animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.3s" fill="freeze"/></g>' +
-        '<!-- Labels -->' +
-        '<g opacity="0" font-family="Zen Kaku Gothic New,sans-serif"><text x="195" y="64" fill="rgba(255,255,255,.6)" font-size="9" text-anchor="middle">熊谷</text><animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.3s" fill="freeze"/></g>' +
-        '<g opacity="0" font-family="Zen Kaku Gothic New,sans-serif"><text x="178" y="75" fill="rgba(255,255,255,.6)" font-size="9" text-anchor="middle">東京</text><animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="1.2s" fill="freeze"/></g>' +
-        '<g opacity="0" font-family="Zen Old Mincho,serif"><text x="68" y="148" fill="#FBF8F5" font-size="14" text-anchor="middle" font-weight="700">京都</text><animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="2.3s" fill="freeze"/></g>' +
-        '<!-- Train icon -->' +
-        '<g opacity="0"><text x="135" y="93" font-size="14">🚅</text>' +
-        '<animateMotion path="M60,-15 Q-25,5 -65,22" dur="1.8s" begin="0.6s" fill="freeze"/>' +
-        '<animate attributeName="opacity" values="0;1;1;1" keyTimes="0;0.05;0.9;1" dur="1.8s" begin="0.6s" fill="freeze"/></g>' +
-        '</svg>' +
-        '<div class="story-route-stats">' +
-        '<div class="story-route-stat"><div class="story-route-stat-num">9</div><div class="story-route-stat-label">スポット</div></div>' +
-        '<div class="story-route-stat"><div class="story-route-stat-num">2泊3日</div><div class="story-route-stat-label">旅程</div></div>' +
-        '</div></div>';
     }
     else if (data.type === 'daybreak') {
       div.classList.add('story-daybreak');
@@ -1739,11 +1751,6 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     else if (data.type === 'ending') {
       div.classList.add('story-ending');
       var endBg = '';
-      if (data.bgImg) {
-        endBg = '<div class="story-spot-img-wrap" style="background-image:url(\'' + data.bgImg + '\')">' +
-          '<img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="object-position:center center">' +
-          '<div class="story-slide-overlay"></div></div>';
-      }
       // Find best spot
       var bestName = '';
       var bestStars = 0;
