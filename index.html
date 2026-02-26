@@ -354,7 +354,6 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 /* Route slide */
 /* Transit slide — full-screen photo like spots */
 .story-transit{background:#1a1614}
-/* Single photo: same as spot */
 .story-transit-single .story-spot-img-wrap{position:absolute;inset:0}
 .story-transit-single .story-spot-content{position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem 3rem;z-index:3;text-shadow:0 1px 8px rgba(0,0,0,.8),0 0 25px rgba(0,0,0,.5)}
 /* Dual photo: split screen */
@@ -362,11 +361,11 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 .story-transit-half{position:relative;flex:1;overflow:hidden}
 .story-transit-half-bg{position:absolute;inset:0;background-size:cover;background-position:center}
 .story-transit-half-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;z-index:1}
-.story-transit-half-label{position:absolute;bottom:.6rem;left:.8rem;font-size:.7rem;color:#FBF8F5;letter-spacing:.08em;z-index:3;opacity:0;animation:storyFadeUp .5s .8s forwards;text-shadow:0 1px 6px rgba(0,0,0,.8)}
+.story-transit-half-label{position:absolute;bottom:.6rem;left:.8rem;font-size:.7rem;color:#FBF8F5;letter-spacing:.08em;z-index:4;opacity:0;animation:storyFadeUp .5s .8s forwards;text-shadow:0 1px 6px rgba(0,0,0,.8)}
 .story-transit-half-gradient{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(0,0,0,.5) 0%,rgba(0,0,0,.15) 20%,transparent 40%)}
-.story-transit-center{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);z-index:10;text-align:center;padding:.6rem 1rem;background:rgba(26,22,20,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.story-transit-center-label{font-family:'Zen Old Mincho',serif;font-size:1.1rem;color:#FBF8F5;letter-spacing:.15em;opacity:0;animation:storyFadeUp .5s .3s forwards}
-.story-transit-center-sub{font-size:.65rem;color:rgba(251,248,245,.5);letter-spacing:.08em;margin-top:.2rem;opacity:0;animation:storyFadeUp .5s .5s forwards}
+/* Thin divider between halves */
+.story-transit-divider{position:relative;z-index:10;display:flex;align-items:center;justify-content:center;height:0;overflow:visible}
+.story-transit-divider-text{font-family:'Zen Old Mincho',serif;font-size:.85rem;color:#FBF8F5;letter-spacing:.15em;padding:.35rem 1rem;background:rgba(26,22,20,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:20px;white-space:nowrap;opacity:0;animation:storyFadeUp .5s .4s forwards;text-shadow:0 1px 4px rgba(0,0,0,.5)}
 /* Day break slide */
 .story-daybreak{align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#1a1614,#1e1c1a)}
 .story-daybreak::before{content:none}
@@ -421,9 +420,8 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 /* Route */
 /* Transit — landscape: side by side */
 .story-transit-dual{flex-direction:row}
-.story-transit-center{left:50%;right:auto;top:0;bottom:0;transform:translateX(-50%);width:auto;padding:.8rem .8rem;display:flex;flex-direction:column;align-items:center;justify-content:center;writing-mode:vertical-rl}
-.story-transit-center-label{font-size:.95rem;writing-mode:vertical-rl}
-.story-transit-center-sub{writing-mode:vertical-rl;margin-top:0;margin-right:.3rem}
+.story-transit-divider{height:auto;width:0;flex-direction:column}
+.story-transit-divider-text{writing-mode:vertical-rl;padding:.8rem .35rem;border-radius:20px;font-size:.8rem}
 /* Daybreak */
 .story-daybreak-date{font-size:2rem}
 .story-daybreak-num{font-size:.85rem}
@@ -1619,13 +1617,13 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
       if (idx === 0) {
         var depImg = getUserPhoto('東京駅出発') || '';
         var arrImg = getUserPhoto('京都駅着') || '';
-        allSlides.push({ type: 'transit', label: '東京駅 → 京都駅', sub: 'のぞみ61号 · 2h12min', emoji: '🚅', img1: depImg, img1label: '東京駅出発', img2: arrImg, img2label: '京都駅着', duration: DURATION_TRANSPORT });
+        allSlides.push({ type: 'transit', label: '東京駅 → 京都駅', emoji: '🚅', img1: depImg, img1label: '東京駅出発', img2: arrImg, img2label: '京都駅着', duration: DURATION_TRANSPORT });
       }
       dayData[idx].spots.forEach(function(s) { allSlides.push(s); });
       // After Day 3 spots, insert 京都駅→東京駅 transit
       if (idx === days.length - 1) {
         var depImg3 = getUserPhoto('京都駅出発') || '';
-        allSlides.push({ type: 'transit', label: '京都駅 → 東京駅', sub: 'ひかり654号 · 2h28min', emoji: '🚅', img1: depImg3, img1label: '京都駅出発', img2: '', img2label: '', duration: DURATION_TRANSPORT });
+        allSlides.push({ type: 'transit', label: '京都駅 → 東京駅', emoji: '🚅', img1: depImg3, img1label: '京都駅出発', img2: '', img2label: '', duration: DURATION_TRANSPORT });
       }
     });
 
@@ -1649,6 +1647,11 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     if (data.type === 'opening') {
       div.classList.add('story-opening');
       var bgHTML = '';
+      if (data.bgImg) {
+        bgHTML = '<div class="story-spot-img-wrap" style="background-image:url(\'' + data.bgImg + '\')">' +
+          '<img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="object-position:center center">' +
+          '<div class="story-slide-overlay"></div></div>';
+      }
       var petals = '<div class="story-opening-petals">';
       for (var i = 0; i < 8; i++) {
         var left = Math.random() * 100;
@@ -1668,7 +1671,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     else if (data.type === 'transit') {
       div.classList.add('story-transit');
       if (data.img1 && data.img2) {
-        // Two photos: split screen like spot×2
+        // Two photos: split screen
         div.innerHTML =
           '<div class="story-transit-dual">' +
             '<div class="story-transit-half">' +
@@ -1677,15 +1680,14 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
               '<div class="story-transit-half-gradient"></div>' +
               '<div class="story-transit-half-label">' + data.img1label + '</div>' +
             '</div>' +
+            '<div class="story-transit-divider">' +
+              '<span class="story-transit-divider-text">' + data.label + '</span>' +
+            '</div>' +
             '<div class="story-transit-half">' +
               '<div class="story-transit-half-bg" style="background-image:url(\'' + data.img2 + '\')"></div>' +
               '<img class="story-transit-half-img" src="' + data.img2 + '" alt="">' +
               '<div class="story-transit-half-gradient"></div>' +
               '<div class="story-transit-half-label">' + data.img2label + '</div>' +
-            '</div>' +
-            '<div class="story-transit-center">' +
-              '<div class="story-transit-center-label">' + data.label + '</div>' +
-              '<div class="story-transit-center-sub">' + data.sub + '</div>' +
             '</div>' +
           '</div>';
       } else if (data.img1) {
@@ -1699,16 +1701,14 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
           '<div class="story-spot-content">' +
             '<div class="story-spot-category" style="color:var(--transport)">移動</div>' +
             '<div class="story-spot-name">' + data.label + '</div>' +
-            '<div class="story-spot-time">' + data.sub + '</div>' +
           '</div>';
       } else {
-        // No photo: dark bg with emoji
+        // No photo
         div.innerHTML =
           '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="font-size:5rem;opacity:.15">' + (data.emoji || '🚅') + '</span></div>' +
           '<div class="story-spot-content">' +
             '<div class="story-spot-category" style="color:var(--transport)">移動</div>' +
             '<div class="story-spot-name">' + data.label + '</div>' +
-            '<div class="story-spot-time">' + data.sub + '</div>' +
           '</div>';
       }
     }
@@ -1751,6 +1751,11 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     else if (data.type === 'ending') {
       div.classList.add('story-ending');
       var endBg = '';
+      if (data.bgImg) {
+        endBg = '<div class="story-spot-img-wrap" style="background-image:url(\'' + data.bgImg + '\')">' +
+          '<img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="object-position:center center">' +
+          '<div class="story-slide-overlay"></div></div>';
+      }
       // Find best spot
       var bestName = '';
       var bestStars = 0;
