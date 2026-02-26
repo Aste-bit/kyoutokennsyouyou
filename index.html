@@ -576,7 +576,7 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
   <div class="timeline" data-day="2026-03-14">
     <div class="timeline-item" data-time="06:57"><div class="timeline-time">06:57</div><div class="timeline-dot transport"></div><span class="now-label">📍 NOW</span><div class="timeline-card transport"><div class="card-header"><div class="card-title">熊谷駅を出発</div><span class="card-category transport">移動</span></div><div class="card-detail">JRたにがわ400号 11・12番線<br>自由席<br>7:36着 東京駅 20番線</div><div class="card-bottom"><a href="https://maps.google.com/maps?q=熊谷駅" target="_blank" rel="noopener" class="card-link">📍 MAP</a><a href="https://www.jreast-timetable.jp/timetable/list1039.html" target="_blank" rel="noopener" class="card-link site-link">🕐 時刻表</a></div></div></div>
     <div class="duration-badge"><div class="duration-badge-inner">⏱ 約1時間</div></div>
-    <div class="timeline-item" data-time="08:00"><div class="timeline-time">08:00</div><div class="timeline-dot transport"></div><span class="now-label">📍 NOW</span><div class="timeline-card transport"><div class="card-header"><div class="card-title">東京駅を出発</div><span class="card-category transport">移動</span></div><div class="card-detail">JRのぞみ61号 19番線<br>13号車1番ABCDE席<br>舜と楽斗と集合</div>
+    <div class="timeline-item" data-time="08:00"><div class="timeline-time">08:00</div><div class="timeline-dot transport"></div><span class="now-label">📍 NOW</span><div class="timeline-card transport"><div class="card-header"><div class="card-title">東京駅出発</div><span class="card-category transport">移動</span></div><div class="card-detail">JRのぞみ61号 19番線<br>13号車1番ABCDE席<br>舜と楽斗と集合</div>
 <div class="seat-chart">
 <div class="seat-chart-title">🚅 座席表 — 13号車 1番ABCDE</div>
 <div class="seat-train-dir"><span>← 博多方面</span><span>東京方面 →</span></div>
@@ -2137,15 +2137,18 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     } catch(e) {}
   }
 
-  // Also add photo slots to transport cards (photo only, no review)
+  // Also add photo slots to specific transport cards only
+  var transportPhotoNames = ['東京駅出発', '京都駅着', '京都駅出発'];
   var transportCards = document.querySelectorAll('.timeline-card.transport');
   transportCards.forEach(function(card) {
     var titleEl = card.querySelector('.card-title');
     if (!titleEl) return;
     var spotName = titleEl.textContent.trim();
-    var bottom = card.querySelector('.card-bottom');
+    if (transportPhotoNames.indexOf(spotName) === -1) return;
+    // Exclude the Kumagaya-bound 東京駅出発 (あさま)
     var detail = card.querySelector('.card-detail');
-    if (!detail && !bottom) return;
+    if (spotName === '東京駅出発' && detail && detail.textContent.indexOf('あさま') !== -1) return;
+    var bottom = card.querySelector('.card-bottom');
     addMiniPhotoSlot(card, spotName, bottom);
   });
 })();
