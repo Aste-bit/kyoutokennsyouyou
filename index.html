@@ -365,11 +365,12 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 /* Spot slide */
 .story-spot{position:relative;background:#0a0908}
 .story-spot-img-wrap{position:absolute;inset:0}
-.story-spot-img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s;animation:storyKenBurns 8s ease-out forwards}
+.story-spot-img-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(20px) brightness(.3) saturate(.5);transform:scale(1.1)}
+.story-spot-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center 35%;opacity:0;transition:opacity .8s;animation:storyKenBurns 8s ease-out forwards;z-index:1}
 .story-spot-img.loaded{opacity:1}
 @keyframes storyKenBurns{from{transform:scale(1.08)}to{transform:scale(1)}}
-.story-spot-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.95) 0%,rgba(10,9,8,.6) 35%,rgba(10,9,8,.15) 55%,rgba(10,9,8,.3) 100%)}
-.story-spot-content{position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem 3rem;z-index:2}
+.story-spot-gradient{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(10,9,8,.97) 0%,rgba(10,9,8,.7) 28%,rgba(10,9,8,.05) 50%,rgba(10,9,8,.15) 100%)}
+.story-spot-content{position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem 3rem;z-index:3}
 .story-spot-category{display:inline-block;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.2rem .6rem;border-radius:3px;margin-bottom:.6rem;font-weight:600}
 .story-spot-category.sight{background:rgba(123,143,78,.25);color:#c8d8a0}
 .story-spot-category.food{background:rgba(212,135,77,.25);color:#e8b88a}
@@ -414,8 +415,9 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 .story-daybreak-date{font-size:2rem}
 .story-daybreak-num{font-size:.85rem}
 /* Spot — side-by-side layout */
-.story-spot-gradient{background:linear-gradient(to right,rgba(10,9,8,.95) 0%,rgba(10,9,8,.7) 35%,rgba(10,9,8,.1) 60%,rgba(10,9,8,.25) 100%)}
+.story-spot-gradient{background:linear-gradient(to right,rgba(10,9,8,.97) 0%,rgba(10,9,8,.6) 30%,rgba(10,9,8,.05) 55%,rgba(10,9,8,.15) 100%)}
 .story-spot-content{inset:0;padding:2.5rem 1.2rem 1.2rem;display:flex;flex-direction:column;justify-content:flex-end;max-width:55%}
+.story-spot-img{object-position:center center}
 .story-spot-name{font-size:1.3rem;margin-bottom:.3rem}
 .story-spot-time{font-size:.65rem;margin-bottom:.3rem}
 .story-spot-stars .story-spot-star{font-size:.85rem}
@@ -434,7 +436,8 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 /* Wider landscape (tablets, desktop) */
 @media (orientation:landscape) and (min-height:501px){
 .story-spot-content{max-width:50%;padding:2rem 2rem 3rem}
-.story-spot-gradient{background:linear-gradient(to right,rgba(10,9,8,.9) 0%,rgba(10,9,8,.55) 40%,rgba(10,9,8,.1) 65%,rgba(10,9,8,.2) 100%)}
+.story-spot-gradient{background:linear-gradient(to right,rgba(10,9,8,.9) 0%,rgba(10,9,8,.45) 35%,rgba(10,9,8,.05) 60%,rgba(10,9,8,.15) 100%)}
+.story-spot-img{object-position:center center}
 }
 </style>
 </head>
@@ -1726,7 +1729,10 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
       div.classList.add('story-spot');
       var imgHTML = '';
       if (data.img) {
-        imgHTML = '<div class="story-spot-img-wrap"><img class="story-spot-img" src="' + data.img + '" alt="" onload="this.classList.add(\'loaded\')"><div class="story-spot-gradient"></div></div>';
+        imgHTML = '<div class="story-spot-img-wrap">' +
+          '<img class="story-spot-img-bg" src="' + data.img + '" alt="">' +
+          '<img class="story-spot-img" src="' + data.img + '" alt="" onload="this.classList.add(\'loaded\')">' +
+          '<div class="story-spot-gradient"></div></div>';
       } else {
         imgHTML = '<div class="story-spot-img-wrap" style="background:#1a1614;display:flex;align-items:center;justify-content:center"><span style="font-size:5rem;opacity:.15">' + (data.emoji || '📍') + '</span><div class="story-spot-gradient"></div></div>';
       }
