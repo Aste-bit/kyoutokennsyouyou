@@ -365,11 +365,11 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 /* Spot slide */
 .story-spot{position:relative;background:#0a0908}
 .story-spot-img-wrap{position:absolute;inset:0}
-.story-spot-img-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(20px) brightness(.3) saturate(.5);transform:scale(1.1)}
+.story-spot-img-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.5) saturate(.7);transform:scale(1.1)}
 .story-spot-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center 35%;opacity:0;transition:opacity .8s;animation:storyKenBurns 8s ease-out forwards;z-index:1}
 .story-spot-img.loaded{opacity:1}
 @keyframes storyKenBurns{from{transform:scale(1.08)}to{transform:scale(1)}}
-.story-spot-gradient{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(10,9,8,.97) 0%,rgba(10,9,8,.7) 28%,rgba(10,9,8,.05) 50%,rgba(10,9,8,.15) 100%)}
+.story-spot-gradient{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(10,9,8,.95) 0%,rgba(10,9,8,.5) 25%,rgba(10,9,8,0) 48%,rgba(10,9,8,.05) 100%)}
 .story-spot-content{position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem 3rem;z-index:3}
 .story-spot-category{display:inline-block;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.2rem .6rem;border-radius:3px;margin-bottom:.6rem;font-weight:600}
 .story-spot-category.sight{background:rgba(123,143,78,.25);color:#c8d8a0}
@@ -467,40 +467,10 @@ if ('serviceWorker' in navigator) {
 <div class="sakura-container" id="sakuraContainer"></div>
 
 <script>
-// === Demo Data for Preview ===
 (function() {
-  var demoReviews = {
-    '東福寺': { stars: 4, comment: '紅葉の時期じゃなくても庭園が見事だった' },
-    '蓮華茶屋（ランチ）': { stars: 4, comment: '宇治の雰囲気の中でゆったりランチ' },
-    '平等院鳳凰堂': { stars: 5, comment: '10円玉の世界が目の前に。水面の反射が最高' },
-    '伏見稲荷大社': { stars: 5, comment: '千本鳥居が圧巻。奥社まで行く体力は残しておくべし' },
-    '祇園きよみず祇をん新橋（夕飯）': { stars: 4, comment: 'コースの鯛めしが絶品だった' },
-    '東寺（夜桜ライトアップ）': { stars: 5, comment: '五重塔と夜桜の組み合わせは言葉を失う美しさ' },
-    '龍安寺': { stars: 4, comment: '石庭の前でぼーっとする時間が贅沢' },
-    '金閣寺': { stars: 5, comment: '思ったより金ピカ。晴れの日に来て正解' },
-    '銀閣寺': { stars: 4, comment: '銀コロッケ食べ歩きが楽しかった' },
-    '八坂庚申堂・清水寺（食べ歩き）': { stars: 5, comment: '清水の舞台からの眺望は何度来ても感動する' },
-    '京都炭火串焼つじや（夕飯）': { stars: 4, comment: '飲み放題付きでこの値段はコスパ最強' },
-    '天龍寺・渡月橋': { stars: 5, comment: '嵐山の朝は空気が違う。天龍寺の庭園は京都一' },
-    '京都駅着（ランチ・お土産）': { stars: 4, comment: '第一旭のラーメン、最後の京都飯にふさわしい' }
-  };
-  var demoPhotos = {
-    '東京駅出発': 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&h=600&fit=crop&q=80',
-    '京都駅着': 'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=800&h=600&fit=crop&q=80',
-    '京都駅出発': 'https://images.unsplash.com/photo-1624601573012-efb68f3f150d?w=800&h=600&fit=crop&q=80'
-  };
-  try {
-    Object.keys(demoReviews).forEach(function(k) {
-      if (!localStorage.getItem('kyoto-review-' + k)) {
-        localStorage.setItem('kyoto-review-' + k, JSON.stringify(demoReviews[k]));
-      }
-    });
-    Object.keys(demoPhotos).forEach(function(k) {
-      if (!localStorage.getItem('kyoto-photo-' + k)) {
-        localStorage.setItem('kyoto-photo-' + k, demoPhotos[k]);
-      }
-    });
-  } catch(e) {}
+  var dr = {'東福寺':{stars:4,comment:'紅葉の時期じゃなくても庭園が見事だった'},'蓮華茶屋（ランチ）':{stars:4,comment:'宇治の雰囲気の中でゆったりランチ'},'平等院鳳凰堂':{stars:5,comment:'10円玉の世界が目の前に。水面の反射が最高'},'伏見稲荷大社':{stars:5,comment:'千本鳥居が圧巻。奥社まで行く体力は残しておくべし'},'祇園きよみず祇をん新橋（夕飯）':{stars:4,comment:'コースの鯛めしが絶品だった'},'東寺（夜桜ライトアップ）':{stars:5,comment:'五重塔と夜桜の組み合わせは言葉を失う美しさ'},'龍安寺':{stars:4,comment:'石庭の前でぼーっとする時間が贅沢'},'金閣寺':{stars:5,comment:'思ったより金ピカ。晴れの日に来て正解'},'銀閣寺':{stars:4,comment:'銀コロッケ食べ歩きが楽しかった'},'八坂庚申堂・清水寺（食べ歩き）':{stars:5,comment:'清水の舞台からの眺望は何度来ても感動する'},'京都炭火串焼つじや（夕飯）':{stars:4,comment:'飲み放題付きでこの値段はコスパ最強'},'天龍寺・渡月橋':{stars:5,comment:'嵐山の朝は空気が違う。天龍寺の庭園は京都一'},'京都駅着（ランチ・お土産）':{stars:4,comment:'第一旭のラーメン、最後の京都飯にふさわしい'}};
+  var dp = {'東京駅出発':'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=800&h=600&fit=crop&q=80','京都駅着':'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=800&h=600&fit=crop&q=80','京都駅出発':'https://images.unsplash.com/photo-1624601573012-efb68f3f150d?w=800&h=600&fit=crop&q=80'};
+  try{Object.keys(dr).forEach(function(k){if(!localStorage.getItem('kyoto-review-'+k))localStorage.setItem('kyoto-review-'+k,JSON.stringify(dr[k]));});Object.keys(dp).forEach(function(k){if(!localStorage.getItem('kyoto-photo-'+k))localStorage.setItem('kyoto-photo-'+k,dp[k]);});}catch(e){}
 })();
 </script>
 
@@ -1667,7 +1637,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
 
     if (data.type === 'opening') {
       div.classList.add('story-opening');
-      var bgHTML = data.bgImg ? '<div class="story-spot-img-wrap"><img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="filter:blur(2px) brightness(.35)"><div class="story-spot-gradient" style="background:radial-gradient(ellipse at 50% 50%,rgba(10,9,8,.4),rgba(10,9,8,.85))"></div></div>' : '';
+      var bgHTML = data.bgImg ? '<div class="story-spot-img-wrap"><img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="filter:brightness(.6)"><div class="story-spot-gradient" style="background:radial-gradient(ellipse at 50% 50%,rgba(10,9,8,.25),rgba(10,9,8,.6))"></div></div>' : '';
       var petals = '<div class="story-opening-petals">';
       for (var i = 0; i < 8; i++) {
         var left = Math.random() * 100;
@@ -1687,7 +1657,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     }
     else if (data.type === 'route') {
       div.classList.add('story-route');
-      var routeBg = data.bgImg ? '<div class="story-spot-img-wrap"><img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="filter:blur(3px) brightness(.2) saturate(.6)"><div class="story-spot-gradient" style="background:rgba(10,9,8,.55)"></div></div>' : '';
+      var routeBg = data.bgImg ? '<div class="story-spot-img-wrap"><img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="filter:brightness(.5) saturate(.75)"><div class="story-spot-gradient" style="background:rgba(10,9,8,.35)"></div></div>' : '';
       div.innerHTML = routeBg +
         '<div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1">' +
         '<div class="story-route-title">travel route</div>' +
@@ -1717,7 +1687,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     }
     else if (data.type === 'daybreak') {
       div.classList.add('story-daybreak');
-      var dayBg = data.bgImg ? '<div class="story-spot-img-wrap"><img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="filter:blur(1px) brightness(.25) saturate(.7)"><div class="story-spot-gradient" style="background:radial-gradient(ellipse at 50% 50%,rgba(10,9,8,.5),rgba(10,9,8,.8))"></div></div>' : '';
+      var dayBg = data.bgImg ? '<div class="story-spot-img-wrap"><img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="filter:brightness(.5) saturate(.8)"><div class="story-spot-gradient" style="background:radial-gradient(ellipse at 50% 50%,rgba(10,9,8,.3),rgba(10,9,8,.6))"></div></div>' : '';
       div.innerHTML = dayBg +
         '<div style="position:relative;z-index:1">' +
         '<div class="story-daybreak-num">' + data.num + '</div>' +
@@ -1749,7 +1719,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     }
     else if (data.type === 'ending') {
       div.classList.add('story-ending');
-      var endBg = data.bgImg ? '<div class="story-spot-img-wrap"><img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="filter:blur(4px) brightness(.2) saturate(.5)"><div class="story-spot-gradient" style="background:radial-gradient(ellipse at 50% 50%,rgba(10,9,8,.5),rgba(10,9,8,.85))"></div></div>' : '';
+      var endBg = data.bgImg ? '<div class="story-spot-img-wrap"><img class="story-spot-img" src="' + data.bgImg + '" alt="" onload="this.classList.add(\'loaded\')" style="filter:brightness(.5) saturate(.7)"><div class="story-spot-gradient" style="background:radial-gradient(ellipse at 50% 50%,rgba(10,9,8,.3),rgba(10,9,8,.65))"></div></div>' : '';
       // Find best spot
       var bestName = '';
       var bestStars = 0;
