@@ -330,6 +330,7 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--warm-white);c
 .story-close:hover{background:rgba(255,255,255,.1)}
 .story-slide-container{flex:1;position:relative;overflow:hidden}
 .story-slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;transform:scale(1.02);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+.story-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;z-index:0}
 .story-slide.active{opacity:1;transform:scale(1);pointer-events:auto}
 .story-slide.exit-left{opacity:0;transform:translateX(-8%) scale(.98)}
 .story-slide.enter-right{opacity:0;transform:translateX(8%) scale(.98)}
@@ -1640,7 +1641,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
 
     if (data.type === 'opening') {
       div.classList.add('story-opening');
-      var bgStyle = data.bgImg ? 'background-image:url(\'' + data.bgImg + '\');background-size:cover;background-position:center;' : '';
+      var bgHTML = data.bgImg ? '<div class="story-slide-bg" style="background-image:url(\'' + data.bgImg + '\')"></div>' : '';
       var petals = '<div class="story-opening-petals">';
       for (var i = 0; i < 8; i++) {
         var left = Math.random() * 100;
@@ -1649,8 +1650,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
         petals += '<div class="story-opening-petal" style="left:' + left + '%;animation-delay:' + delay + 's;animation-duration:' + dur + 's">🌸</div>';
       }
       petals += '</div>';
-      if (bgStyle) div.style.cssText = bgStyle;
-      div.innerHTML = petals +
+      div.innerHTML = bgHTML + petals +
         '<div style="position:relative;z-index:1">' +
         '<div class="story-opening-label">My Travel Journal</div>' +
         '<div class="story-opening-title">京都</div>' +
@@ -1661,8 +1661,8 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     }
     else if (data.type === 'route') {
       div.classList.add('story-route');
-      if (data.bgImg) div.style.cssText = 'background-image:url(\'' + data.bgImg + '\');background-size:cover;background-position:center;';
-      div.innerHTML =
+      var routeBg = data.bgImg ? '<div class="story-slide-bg" style="background-image:url(\'' + data.bgImg + '\')"></div>' : '';
+      div.innerHTML = routeBg +
         '<div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1">' +
         '<div class="story-route-title">travel route</div>' +
         '<svg viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">' +
@@ -1691,8 +1691,8 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     }
     else if (data.type === 'daybreak') {
       div.classList.add('story-daybreak');
-      if (data.bgImg) div.style.cssText = 'background-image:url(\'' + data.bgImg + '\');background-size:cover;background-position:center;';
-      div.innerHTML =
+      var dayBg = data.bgImg ? '<div class="story-slide-bg" style="background-image:url(\'' + data.bgImg + '\')"></div>' : '';
+      div.innerHTML = dayBg +
         '<div style="position:relative;z-index:1">' +
         '<div class="story-daybreak-num">' + data.num + '</div>' +
         '<div class="story-daybreak-date">' + data.date + '</div>' +
@@ -1722,7 +1722,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
     }
     else if (data.type === 'ending') {
       div.classList.add('story-ending');
-      if (data.bgImg) div.style.cssText = 'background-image:url(\'' + data.bgImg + '\');background-size:cover;background-position:center;';
+      var endBg = data.bgImg ? '<div class="story-slide-bg" style="background-image:url(\'' + data.bgImg + '\')"></div>' : '';
       // Find best spot
       var bestName = '';
       var bestStars = 0;
@@ -1738,7 +1738,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
       slides.forEach(function(s) { if (s.type === 'spot' && s.stars > 0) { totalStars += s.stars; ratedCount++; } });
       var avgStars = ratedCount > 0 ? (totalStars / ratedCount).toFixed(1) : '—';
       var spotCount = slides.filter(function(s) { return s.type === 'spot'; }).length;
-      div.innerHTML =
+      div.innerHTML = endBg +
         '<div style="position:relative;z-index:1">' +
         '<div class="story-ending-stats">' +
         '<div><div class="story-ending-stat-num">' + spotCount + '</div><div class="story-ending-stat-label">スポット</div></div>' +
