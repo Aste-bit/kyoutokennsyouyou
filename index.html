@@ -480,8 +480,9 @@ if ('serviceWorker' in navigator) {
 <script>
 (function() {
   var dr = {'東福寺':{stars:4,comment:'紅葉の時期じゃなくても庭園が見事だった'},'蓮華茶屋（ランチ）':{stars:4,comment:'宇治の雰囲気の中でゆったりランチ'},'平等院鳳凰堂':{stars:5,comment:'10円玉の世界が目の前に。水面の反射が最高'},'伏見稲荷大社':{stars:5,comment:'千本鳥居が圧巻。奥社まで行く体力は残しておくべし'},'祇園きよみず祇をん新橋（夕飯）':{stars:4,comment:'コースの鯛めしが絶品だった'},'東寺（夜桜ライトアップ）':{stars:5,comment:'五重塔と夜桜の組み合わせは言葉を失う美しさ'},'龍安寺':{stars:4,comment:'石庭の前でぼーっとする時間が贅沢'},'金閣寺':{stars:5,comment:'思ったより金ピカ。晴れの日に来て正解'},'銀閣寺':{stars:4,comment:'銀コロッケ食べ歩きが楽しかった'},'八坂庚申堂・清水寺（食べ歩き）':{stars:5,comment:'清水の舞台からの眺望は何度来ても感動する'},'京都炭火串焼つじや（夕飯）':{stars:4,comment:'飲み放題付きでこの値段はコスパ最強'},'天龍寺・渡月橋':{stars:5,comment:'嵐山の朝は空気が違う。天龍寺の庭園は京都一'},'京都駅着（ランチ・お土産）':{stars:4,comment:'第一旭のラーメン、最後の京都飯にふさわしい'}};
-  var dp = {'東京駅出発':'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=600&h=400&fit=crop&q=70','京都駅着':'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=600&h=400&fit=crop&q=70','京都駅出発':'https://images.unsplash.com/photo-1624601573012-efb68f3f150d?w=600&h=400&fit=crop&q=70','蓮華茶屋（ランチ）':'https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=600&h=400&fit=crop&q=70','祇園きよみず祇をん新橋（夕飯）':'https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&h=400&fit=crop&q=70','京都炭火串焼つじや（夕飯）':'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop&q=70','京都駅着（ランチ・お土産）':'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&h=400&fit=crop&q=70'};
-  try{Object.keys(dr).forEach(function(k){if(!localStorage.getItem('kyoto-review-'+k))localStorage.setItem('kyoto-review-'+k,JSON.stringify(dr[k]));});Object.keys(dp).forEach(function(k){if(!localStorage.getItem('kyoto-photo-'+k))localStorage.setItem('kyoto-photo-'+k,dp[k]);});}catch(e){}
+  var dp = {'東京駅出発':'https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=600&h=400&fit=crop&q=70','京都駅着':'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=600&h=400&fit=crop&q=70','蓮華茶屋（ランチ）':'https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=600&h=400&fit=crop&q=70','祇園きよみず祇をん新橋（夕飯）':'https://images.unsplash.com/photo-1553621042-f6e147245754?w=600&h=400&fit=crop&q=70','京都炭火串焼つじや（夕飯）':'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop&q=70','京都駅着（ランチ・お土産）':'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&h=400&fit=crop&q=70'};
+  var da = {'kyoto-album-0':'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&h=400&fit=crop&q=70','kyoto-album-1':'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=600&h=400&fit=crop&q=70','kyoto-album-2':'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600&h=400&fit=crop&q=70'};
+  try{Object.keys(dr).forEach(function(k){if(!localStorage.getItem('kyoto-review-'+k))localStorage.setItem('kyoto-review-'+k,JSON.stringify(dr[k]));});Object.keys(dp).forEach(function(k){if(!localStorage.getItem('kyoto-photo-'+k))localStorage.setItem('kyoto-photo-'+k,dp[k]);});Object.keys(da).forEach(function(k){if(!localStorage.getItem(k))localStorage.setItem(k,da[k]);});}catch(e){}
 })();
 </script>
 
@@ -1600,16 +1601,25 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
       dayData.push(dd);
     });
 
-    // Find overall best photo (highest starred, prefer user photos)
-    var overallBest = '';
-    var overallBestStars = -1;
-    allSpotPhotos.forEach(function(p) {
-      if (p.stars > overallBestStars) { overallBestStars = p.stars; overallBest = p.img; }
-    });
-    if (!overallBest && allSpotPhotos.length) overallBest = allSpotPhotos[0].img;
+    // Collect all album photos for opening/ending backgrounds
+    var albumPhotos = [];
+    for (var ai = 0; ai < 6; ai++) {
+      try {
+        var ap = localStorage.getItem('kyoto-album-' + ai);
+        if (ap) albumPhotos.push(ap);
+      } catch(e) {}
+    }
+    // Shuffle album photos
+    for (var si = albumPhotos.length - 1; si > 0; si--) {
+      var sj = Math.floor(Math.random() * (si + 1));
+      var tmp = albumPhotos[si]; albumPhotos[si] = albumPhotos[sj]; albumPhotos[sj] = tmp;
+    }
+    // Pick different photos for opening and ending when possible
+    var openingBg = albumPhotos.length > 0 ? albumPhotos[0] : '';
+    var endingBg = albumPhotos.length > 1 ? albumPhotos[1] : openingBg;
 
     // Build final slide array
-    allSlides.push({ type: 'opening', duration: DURATION_OPENING, bgImg: overallBest });
+    allSlides.push({ type: 'opening', duration: DURATION_OPENING, bgImg: openingBg });
 
     days.forEach(function(day, idx) {
       allSlides.push({ type: 'daybreak', num: day.num, date: day.date, weekday: day.weekday, duration: DURATION_DAYBREAK, bgImg: dayData[idx].bestImg });
@@ -1620,14 +1630,9 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
         allSlides.push({ type: 'transit', label: '東京駅 → 京都駅', emoji: '🚅', img1: depImg, img1label: '東京駅出発', img2: arrImg, img2label: '京都駅着', duration: DURATION_TRANSPORT });
       }
       dayData[idx].spots.forEach(function(s) { allSlides.push(s); });
-      // After Day 3 spots, insert 京都駅→東京駅 transit
-      if (idx === days.length - 1) {
-        var depImg3 = getUserPhoto('京都駅出発') || '';
-        allSlides.push({ type: 'transit', label: '京都駅 → 東京駅', emoji: '🚅', img1: depImg3, img1label: '京都駅出発', img2: '', img2label: '', duration: DURATION_TRANSPORT });
-      }
     });
 
-    allSlides.push({ type: 'ending', duration: DURATION_ENDING, bgImg: overallBest });
+    allSlides.push({ type: 'ending', duration: DURATION_ENDING, bgImg: endingBg });
     return allSlides;
   }
 
@@ -2273,7 +2278,7 @@ document.querySelectorAll('.album-slot').forEach(function(slot) {
   }
 
   // Also add photo slots to specific transport cards only
-  var transportPhotoNames = ['東京駅出発', '京都駅着', '京都駅出発'];
+  var transportPhotoNames = ['東京駅出発', '京都駅着'];
   var transportCards = document.querySelectorAll('.timeline-card.transport');
   transportCards.forEach(function(card) {
     var titleEl = card.querySelector('.card-title');
